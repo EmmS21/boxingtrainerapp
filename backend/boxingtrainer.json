@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "boxingtrainer-63cb8",
+  "private_key_id": "6f36a05ecee6e07a1355ba6caefe8410caea2d88",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC5zjoJD3z68F6e\nkWvSho36UVRFZV1hN1ZaOgL/R5uwr1wFZqi1EoK7O2r2lXk47ayJCXPcf/I0fMyM\nzO6OCS0V86rXpQBCnV6QhgpyoV+fcWmjZLfP1fSOLGvI3xjhlxl6zCNhf4hPnc7J\nyGGXDk11ChgtEIhwe3uLYKdrMXG5aSXkldptswVIAUYX2IQzxWIpSQymuG17kAmP\n8dqd4C7yeSJ3/xeJkxqixRtnUGJ/X84TarZHh3p8MfLlvp/cmD1vhCJJnWDFj2iF\nKnpEiuvoPHFUBGreIcAZp7WRpbZVH+i6b81Q0mvIl6f8l0kUZigWHEspFrUZNGfy\nwi8CodAfAgMBAAECggEABgo6JyLY9GwgtBVHsZqsitj4XR+Ka/Qy9NCywD50eGEU\nik7OaFrafROiMOamMvLAi3cPMrlfoKBd73j9JQjcILzz1Ma8V24ElCLtvAQ0g45Z\n2Y6wmvgtii5pFcKK07dOg+6W4XIWQ3nk+vihYE1KuOWqTrmDqR4A47fLBj6fn8Z8\nIKB2FxdTo5Pt5HLmoyI9vWpfYiCWJdJyhwlQeUn3dgMohhJqDSavDvtYxE2wViy+\ncDAzCatTNVoAF/wKUpBxdyyzEaPlRFmSXc3bx2jgEfTIfc6nSyN6i6FrpcUYWNKC\nrUS5/fiAEdDwJ5v15EUnJMfwdSTpQxAF8CyRcyEjQQKBgQD7xS/YdSYfyEwGtu8y\nB5XZ4yUbPh10ZegFrWAIDkMZ6U1Z4uaWKCrCw6s3n78gAKUxcqDp1X6rbFNlbeS5\nZ43yeXckCoJjz6n11SPH2104hOiIe7akMrPNOk8zIWUnOOzyothCq+kIwPZAcjRt\nRi5DGA516pWdrpEhGCJgC0dJ6QKBgQC87VbH3V3xvj7sqNGvqC/P1mvZmpkEbVp9\nmjN6xJPcCC7whY3Flyc8j+M4g5hkis7ScjtT3Qi0EE0G7tjB/55tzpGUBxayhlSJ\n7jJXzE7tyNZCUjS+3B+v4RSI4WgadrNbomHkffePvcaov6EqB4gjoWWMiL7/9qTj\nC4rx5gb8xwKBgQCPzPie8Yps7MI/s4y7TonQgWRYQwofyXTUiUooT70Tt6VuiaKa\ncSa7R3crtho79SJlM8ukw0QuNRkM/c999h+lNqtN8pK2341709kz9Z8xAPivu7l9\n31fDCGLkGVblKCZuD4Tlz7qyPURpWtGG+GbD+6GGyA3cmjBabqZzpP16wQKBgAjg\n/psWBDxAPKTSqkgfF2AlK5xmb5qNqRsODC1Q38IPgGU9YZRPrkBiYsNdK+RNwbqS\nM8eVM7uCqJwSzY0Qflmaw6y5SI/LUF3LHAKUT4FNVwR26JOvtK2HXnewYDweJ/++\neetLID9ZI+T6XJClGfjStPsN0iwlY0poWHdV4C4xAoGBAMJGiagccF7/rofPzA8t\nMde7tvHJWJWelr7ZZrDG37fec5oChuYIbKPQ/ChMS4BZUpGjngkd20oqbkCZ0Mkr\noK1s3zlu2DgX1MRlX3NtGC8TasqJQIAly/d1WcuWvlybIHn23MvgIUcHS1TpY/To\nU5KV3vQka3j1cJlf4XZBSDQv\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-le0zq@boxingtrainer-63cb8.iam.gserviceaccount.com",
+  "client_id": "111258110524642931139",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-le0zq%40boxingtrainer-63cb8.iam.gserviceaccount.com"
+}

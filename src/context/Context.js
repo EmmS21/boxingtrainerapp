@@ -14,6 +14,7 @@ export const ContextProvider = ({ children }) => {
     const [signupModal, setSignupModal] = useState(false)
     const [user, setUser] = useState(null);
     const [username, setUsername] = useState(null);
+    const [uid, setUid] = useState(null);
     const auth = firebase.auth();
 
     const handleSignIn = async (email, password) => {
@@ -28,7 +29,7 @@ export const ContextProvider = ({ children }) => {
     const handleSignUp = async (email, password) => {
         try {
           const res = await auth.createUserWithEmailAndPassword(email, password);
-          console.log('res', JSON.stringify(res.user.refreshToken))
+          setUid(res.user.uid)
         } catch (error) {
           console.log(error);
         }
