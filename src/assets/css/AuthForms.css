@@ -1,0 +1,28 @@
+.auth-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.auth-label {
+  display: flex;
+  justify-content: space-between;
+}
+
+.auth-input {
+  width: 75%;
+}
+
+.auth-button {
+    background-color: rgba(0, 0, 255, 0.2);
+    color: black;
+    border-radius: 10px;
+    padding: 10px;
+    width: 50%;
+    margin: auto;
+  }
+  
+.auth-button:hover {
+    background-color: rgba(0, 0, 255, 0.5);
+    font-size: 110%;
+  }
