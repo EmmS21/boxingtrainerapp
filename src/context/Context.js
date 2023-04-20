@@ -1,9 +1,8 @@
 import React, { createContext, useState, useRef, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import { dbRef } from '../index'
-// import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-
+import { dbRef } from '../index';
+import axios from 'axios';
 
 const Context = createContext();
 
@@ -16,6 +15,7 @@ export const ContextProvider = ({ children }) => {
     const [username, setUsername] = useState(null);
     const [uid, setUid] = useState(null);
     const auth = firebase.auth();
+    const baseURL = 'http://127.0.0.1:8000/auth';
 
     const handleSignIn = async (email, password) => {
         try {
@@ -28,8 +28,14 @@ export const ContextProvider = ({ children }) => {
     
     const handleSignUp = async (email, password) => {
         try {
-          const res = await auth.createUserWithEmailAndPassword(email, password);
-          setUid(res.user.uid)
+          const result = await auth.createUserWithEmailAndPassword(email, password);
+          const refresh = {'refreshToken': result.user.refreshToken,
+                           'uid': result.user.uid
+                          }
+          setUid(result.user.uid)
+          axios.post(`${baseURL}`, refresh).then((res) => {
+            console.log('cookie', res)
+          })          
         } catch (error) {
           console.log(error);
         }

@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors')
 const admin = require('firebase-admin');
 const session = require('cookie-session');
+const jwt = require('jsonwebtoken');
+const randtoken = require('rand-token');
 
 
 const app = express();
@@ -28,24 +30,29 @@ app.use(express.json());
 app.use(session({
     name: 'session',
     keys: ['key1', 'key2'],
-    maxAge: 24 * 60 * 60 * 1000
+    maxAge: 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    secure: true
 }));
 
-app.get('/test', (req, res) => {
-    res.json({message: JSON.stringify(serviceAccount)});
-}); 
 
 app.post('/auth', async (req, res) => {
-    const uid = req.body.id
+    const uid = req.body.uid
+    //create JWT token
+    const secret = randtoken.generate(16);
+    const payload = {
+        isValid: 'true'
+    }
+    const token = jwt.sign(payload, secret)
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount)
     })
     const authResult = await admin.auth().getUser(uid)
+    req.session.token = token;
     req.session.uid = uid;
-    req.session.email = authResult.email
-    res.json({ message: authResult });
+    res.cookie('cookie', req.session)
+    res.json({ message: authResult})
 });
 
 app.listen(port);
 console.log('Server started at http://localhost:' + port);
-
