@@ -12,30 +12,55 @@ export const ContextProvider = ({ children }) => {
     const [loginModal, setLoginModal] = useState(false);
     const [signupModal, setSignupModal] = useState(false)
     const [user, setUser] = useState(null);
-    const [username, setUsername] = useState(null);
+    const [displayName, setDisplayName] = useState(null);
     const [uid, setUid] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const auth = firebase.auth();
     const baseURL = 'http://127.0.0.1:8000/auth';
 
     const handleSignIn = async (email, password) => {
         try {
-          const res = await auth.signInWithEmailAndPassword(email, password);
-          localStorage.setItem('token', res)
+          const result = await auth.signInWithEmailAndPassword(email, password);
+          localStorage.setItem('token', result.user.refreshToken)
+          setUid(result.user.uid)
         } catch (error) {
           console.log(error);
         }
     };
     
-    const handleSignUp = async (email, password) => {
+    const handleSignUp = async (email, username, password) => {
         try {
           const result = await auth.createUserWithEmailAndPassword(email, password);
-          const refresh = {'refreshToken': result.user.refreshToken,
-                           'uid': result.user.uid
-                          }
+          localStorage.setItem('token', result.user.refreshToken)
+          firebase.auth().onAuthStateChanged(function(user) {
+            if(user) {
+              user.updateProfile({
+                displayName: username 
+              }).then(function() {
+                console.log('Profile created, username is', user.displayName)
+                setDisplayName(user.displayName)
+              }, function (error) {
+                console.log(error)
+              });
+            }
+          });
           setUid(result.user.uid)
-          axios.post(`${baseURL}`, refresh).then((res) => {
-            console.log('cookie', res)
-          })          
+          // const refresh = {'refreshToken': result.user.refreshToken,
+          //                  'uid': result.user.uid
+          //                 }
+          // setUid(result.user.uid)
+          // const req = await fetch(`${baseURL}`, {
+          //   method: 'POST',
+          //   credentials: 'include',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //     'Access-Control-Allow-Credentials': true
+          //   },
+          //   body: JSON.stringify(refresh)
+          // })
+          // const data = await req.json()
+          // console.log('res', data)
+          // console.log('cookie', data.cookie)
         } catch (error) {
           console.log(error);
         }
@@ -49,12 +74,19 @@ export const ContextProvider = ({ children }) => {
         }
     };
 
-    const writeToDB =  (videoType, videoLink, username) => {
-      const data = {videoType, videoLink, username}
+    const writeToDB =  (videoType, videoLink, displayName) => {
+      const data = {videoType, videoLink, displayName}
       try {
         dbRef.set(data);
       } catch (error) {
         console.log(error);
+      }
+    };
+
+    const isAuth = () => {
+      const token = localStorage.getItem('token') ? localStorage.getItem('token') : null
+      if(token){
+        setIsAuthenticated(true)
       }
     };
 
@@ -69,7 +101,12 @@ export const ContextProvider = ({ children }) => {
         handleSignIn: handleSignIn,
         handleSignUp: handleSignUp,
         handleSignOut: handleSignOut,
-        writeToDB: writeToDB
+        writeToDB: writeToDB,
+        uid: uid,
+        displayName: displayName,
+        setDisplayName: setDisplayName,
+        isAuth: isAuth,
+        isAuthenticated: isAuthenticated
     };
 
     return(

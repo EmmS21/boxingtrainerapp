@@ -13,6 +13,7 @@ const SignupModal = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [username, setUsername] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -66,6 +67,14 @@ const SignupModal = () => {
             {emailError && <span>{emailError}</span>}
         </label>
         <label className='auth-label'>
+            Username:
+            <input 
+                type="text" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)} 
+                className='auth-input' />
+        </label>
+        <label className='auth-label'>
             Password:
             <input 
                 type="password" 
@@ -87,9 +96,12 @@ const SignupModal = () => {
         </label>
         <button
             type='submit' 
-            disabled={!email || !password || !confirmPassword || emailError || passwordError || confirmPasswordError}
+            disabled={!email || !password || 
+                      !username || !confirmPassword || 
+                      emailError || passwordError || 
+                      confirmPasswordError}
             className='auth-button'
-            onClick={() => handleSignUp(email, password)}>Submit</button>
+            onClick={() => handleSignUp(email, username, password)}>Submit</button>
         </form>
     </Modal>
   );

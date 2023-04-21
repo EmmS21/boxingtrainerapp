@@ -24,15 +24,19 @@ const serviceAccount= {
     client_x509_cert_url : process.env.CLIENT_X509_CERT_URL
 }
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+
 app.use(express.json());
 
 app.use(session({
     name: 'session',
     keys: ['key1', 'key2'],
     maxAge: 24 * 60 * 60 * 1000,
-    httpOnly: true,
-    secure: true
+    // httpOnly: true,
+    // secure: true
 }));
 
 
@@ -51,7 +55,7 @@ app.post('/auth', async (req, res) => {
     req.session.token = token;
     req.session.uid = uid;
     res.cookie('cookie', req.session)
-    res.json({ message: authResult})
+    res.json({ message: authResult, cookie: req.session.cookie, header: 'test' })
 });
 
 app.listen(port);
