@@ -6,14 +6,14 @@ import { CloseCircleOutlined } from '@ant-design/icons';
 
 const SignupModal = () => {
   const { signupModal, setSignupModal, 
-        handleSignUp, handleSignuOut } = useContext(Context);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+        handleSignUp, handleSignuOut,
+        email, setEmail,
+        password, setPassword,
+        confirmPassword, setConfirmPassword,
+        username, setUsername } = useContext(Context);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const [username, setUsername] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();

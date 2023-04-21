@@ -15,6 +15,11 @@ export const ContextProvider = ({ children }) => {
     const [displayName, setDisplayName] = useState(null);
     const [uid, setUid] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [username, setUsername] = useState('');
+  
     const auth = firebase.auth();
     const baseURL = 'http://127.0.0.1:8000/auth';
 
@@ -39,12 +44,19 @@ export const ContextProvider = ({ children }) => {
               }).then(function() {
                 console.log('Profile created, username is', user.displayName)
                 setDisplayName(user.displayName)
+                setUsername('')
+                setEmail('')
+                setPassword('')
+                setConfirmPassword('')
+                setSignupModal(false)
               }, function (error) {
                 console.log(error)
               });
             }
           });
           setUid(result.user.uid)
+          //code to create session cookie upon signup
+          
           // const refresh = {'refreshToken': result.user.refreshToken,
           //                  'uid': result.user.uid
           //                 }
@@ -76,12 +88,14 @@ export const ContextProvider = ({ children }) => {
 
     const writeToDB =  (videoType, videoLink, displayName) => {
       const data = {videoType, videoLink, displayName}
-      try {
-        dbRef.set(data);
-      } catch (error) {
-        console.log(error);
-      }
+      console.log('data', JSON.stringify(data))
+      // try {
+      //   dbRef.push(data);
+      // } catch (error) {
+      //   console.log(error);
+      // }
     };
+    
 
     const isAuth = () => {
       const token = localStorage.getItem('token') ? localStorage.getItem('token') : null
@@ -106,7 +120,15 @@ export const ContextProvider = ({ children }) => {
         displayName: displayName,
         setDisplayName: setDisplayName,
         isAuth: isAuth,
-        isAuthenticated: isAuthenticated
+        isAuthenticated: isAuthenticated,
+        setUsername: setUsername,
+        username: username,
+        setEmail: setEmail,
+        email: email,
+        setPassword: setPassword,
+        password: password,
+        setConfirmPassword: setConfirmPassword,
+        confirmPassword: confirmPassword
     };
 
     return(
