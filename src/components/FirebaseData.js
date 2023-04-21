@@ -1,25 +1,22 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { getDatabase, ref, onValue } from 'firebase/compat/database';
+import React, { useState, useEffect } from 'react';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/database';
 
 export default function FirebaseData () {
-    const { data, setData } = useState([]);
+    const [ data, setData ] = useState([]);
 
     useEffect(() => {
-        const database = getDatabase();
-        const dbRef = ref(database);
-        onValue(dbRef, (snapshot) => {
-            const data = snapshot.val();
-            setData(data);
+        const dbRef = firebase.database().ref();
+        dbRef.on('value', (snapshot) => {
+            setData(snapshot.val());
         });
     }, []);
 
     return (
         <div>
-            <ul>
-                {Object.keys(data).map((key) => (
-                    <li key={key}>{data[key]}</li>
-                ))}
-            </ul>
+            { data && (
+                <pre>{ JSON.stringify(data, null, 2) }</pre>
+            )}
         </div>
-    )
-}
+    );
+};

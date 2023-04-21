@@ -4,6 +4,7 @@ import Context from '../context/Context'
 import LoginModal from '../components/LoginModal';
 import SignupModal from '../components/SignupModal';
 import UploadVideo from '../components/UploadVideo';
+import FirebaseData from '../components/FirebaseData';
 
 // setLoginModal
 const Timeline = () => {
@@ -24,6 +25,7 @@ const Timeline = () => {
         <LoginModal/>
         <SignupModal/>
         <UploadVideo/>
+        <FirebaseData/>
     </>
   );
 };
