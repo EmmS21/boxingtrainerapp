@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -20,13 +20,19 @@ const drawerWidth = 240;
 const navItems = ['Login', 'Signup'];
 
 export default function NavigationBar(props) {
-    const { setLoginModal, setSignupModal } = useContext(Context);
+    const { setLoginModal, setSignupModal, isAuth,
+            user, loginToken } = useContext(Context);
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
+
+    useEffect(() => {
+        isAuth()
+        console.log('check', loginToken.current)
+      }, []);
 
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -67,9 +73,15 @@ export default function NavigationBar(props) {
                 Boxing Trainer
             </Typography>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                <Button sx={{ color: '#fff' }} onClick={()=>setSignupModal(true)}>Signup</Button>
-                <Button sx={{ color: '#fff' }} onClick={()=>setLoginModal(true)}>Login</Button>
-                <Button sx={{ color: '#fff' }}>Logout</Button>
+                {
+                    loginToken.current ?
+                        <Button sx={{ color: '#fff' }}>Logout</Button>
+                        :
+                        ( 
+                            <Button sx={{ color: '#fff' }} onClick={()=>setSignupModal(true)}>Signup</Button>,
+                            <Button sx={{ color: '#fff' }} onClick={()=>setLoginModal(true)}>Login</Button>
+                        )
+                }
             </Box>
             </Toolbar>
         </AppBar>

@@ -4,18 +4,18 @@ import Context from '../context/Context';
 import '../assets/css/AuthForms.css';
 import { CloseCircleOutlined } from '@ant-design/icons';
 
-
 const LoginModal = () => {
-  const { loginModal, setLoginModal, 
-        handleSignIn } = useContext(Context);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { loginModal, setLoginModal, handleSignIn, 
+          loginEmail, setLoginEmail, loginPassword, 
+          setLoginPassword } = useContext(Context);
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
   
-  const useEmailValidation = (email) => {
-      const isEmailValid = /@/.test(email); 
+  const useEmailValidation = (loginEmail) => {
+      const isEmailValid = /@/.test(loginEmail); 
       return isEmailValid;
     };
-  const isEmailValid = useEmailValidation(email);
+  const isEmailValid = useEmailValidation(loginEmail);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isEmailValid) {
@@ -37,9 +37,9 @@ const LoginModal = () => {
         Email:
         <input
           type="email"
-          value={email}
+          value={loginEmail}
           className='auth-input'
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setLoginEmail(e.target.value)}
         />
       </label>
       <br />
@@ -47,17 +47,17 @@ const LoginModal = () => {
         Password:
         <input
           type="password"
-          value={password}
+          value={loginPassword}
           className='auth-input'
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setLoginPassword(e.target.value)}
         />
       </label>
       <br />
       <button 
         type="submit" 
         className="auth-button" 
-        disabled={!email || !password} 
-        onClick={() => handleSignIn(email, password)}>Submit</button>
+        disabled={!loginEmail || !loginPassword} 
+        onClick={() => handleSignIn(loginEmail, loginPassword)}>Submit</button>
     </form>
       </Modal>
   );

@@ -19,6 +19,10 @@ export const ContextProvider = ({ children }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [username, setUsername] = useState('');
+    const [loginEmail, setLoginEmail] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
+    const loginToken = useRef('');
+  
   
     const auth = firebase.auth();
     const baseURL = 'http://127.0.0.1:8000/auth';
@@ -27,7 +31,19 @@ export const ContextProvider = ({ children }) => {
         try {
           const result = await auth.signInWithEmailAndPassword(email, password);
           localStorage.setItem('token', result.user.refreshToken)
-          setUid(result.user.uid)
+          firebase.auth().onAuthStateChanged(function(user) {
+            if(user) {
+              console.log('user', user)
+              user.updateProfile({
+                displayName: username
+              }).then(function() {
+                console.log('Profile logged in with', user.displayName)
+                setDisplayName(user.displayName)
+                setLoginEmail('')
+                setLoginPassword('')
+              })
+            }
+          })
         } catch (error) {
           console.log(error);
         }
@@ -89,19 +105,25 @@ export const ContextProvider = ({ children }) => {
     const writeToDB =  (videoType, videoLink, displayName) => {
       const data = {videoType, videoLink, displayName}
       console.log('data', JSON.stringify(data))
-      // try {
-      //   dbRef.push(data);
-      // } catch (error) {
-      //   console.log(error);
-      // }
+      try {
+        dbRef.push(data);
+      } catch (error) {
+        console.log(error);
+      }
     };
     
 
     const isAuth = () => {
-      const token = localStorage.getItem('token') ? localStorage.getItem('token') : null
-      if(token){
-        setIsAuthenticated(true)
-      }
+      // const token = localStorage.getItem('token') ? localStorage.getItem('token') : null
+      // if(token){
+      //   setIsAuthenticated(true)
+      // }
+      const subscribe = firebase.auth().onAuthStateChanged(user => {
+        setUser(user);
+        setDisplayName(user.displayName)
+        loginToken.current = user.refreshToken
+      });
+      return () => subscribe();
     };
 
     let contextData = {
@@ -128,9 +150,13 @@ export const ContextProvider = ({ children }) => {
         setPassword: setPassword,
         password: password,
         setConfirmPassword: setConfirmPassword,
-        confirmPassword: confirmPassword
+        confirmPassword: confirmPassword,
+        loginEmail: loginEmail,
+        setLoginEmail: setLoginEmail,
+        loginPassword: loginPassword,
+        setLoginPassword: setLoginPassword,
+        loginToken: loginToken
     };
-
     return(
         <Context.Provider value={contextData} >
             { children }
