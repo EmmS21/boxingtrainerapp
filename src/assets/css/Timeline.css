@@ -10,3 +10,27 @@
   margin-top: 70px; 
 }
 
+.div-post {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  margin: auto;
+  width: 50%;
+} 
+
+.div-para {
+  color: grey;
+  font-size: small;
+}
+
+.div-post > * {
+  flex-grow: 1;
+}
+
+.div-comments {
+  position: absolute;
+  background-color: grey;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}

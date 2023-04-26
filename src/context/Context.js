@@ -14,7 +14,6 @@ export const ContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [displayName, setDisplayName] = useState(null);
     const [uid, setUid] = useState(null);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -142,7 +141,6 @@ export const ContextProvider = ({ children }) => {
         displayName: displayName,
         setDisplayName: setDisplayName,
         isAuth: isAuth,
-        isAuthenticated: isAuthenticated,
         setUsername: setUsername,
         username: username,
         setEmail: setEmail,

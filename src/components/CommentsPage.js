@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
 import '../assets/css/Timeline.css';
-import VideoPlayer from './VideoPlayer';
-import { Space, Tag } from 'antd';
-import { CommentOutlined } from '@ant-design/icons';
 
 export default function FirebaseData () {
     const [ data, setData ] = useState([]);

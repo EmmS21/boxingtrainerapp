@@ -21,7 +21,7 @@ const navItems = ['Login', 'Signup'];
 
 export default function NavigationBar(props) {
     const { setLoginModal, setSignupModal, isAuth,
-            user, loginToken } = useContext(Context);
+            loginToken } = useContext(Context);
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
 

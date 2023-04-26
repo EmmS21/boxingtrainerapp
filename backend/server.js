@@ -4,6 +4,7 @@ const admin = require('firebase-admin');
 const session = require('cookie-session');
 const jwt = require('jsonwebtoken');
 const randtoken = require('rand-token');
+// const MongoClient = require('mongodb').MongoClient;
 
 
 const app = express();
@@ -58,5 +59,30 @@ app.post('/auth', async (req, res) => {
     res.json({ message: authResult, cookie: req.session.cookie, header: 'test' })
 });
 
+app.get('/database', async (req, res) => {
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+    });
+    const db = admin.firestore();
+    const collectionRef = db.collection('boxingvids');
+    const documentRef = collectionRef.doc('reviewsandcomments');
+    documentRef.set({
+        vidKey: 'test',
+        footWork: 2,
+        headMovement: 2,
+        overallRating: 2,
+        punchForm: 3,
+        shouldWOrkOn: 'test again',
+        addComments: 'test again again',
+        doesWell: 'test'
+    }).then(() => {
+        console.log('Document successfully written!')
+    })
+    .catch((error) => {
+        console.error('Error writing document: ', error);
+    });
+});    
+
 app.listen(port);
 console.log('Server started at http://localhost:' + port);
+

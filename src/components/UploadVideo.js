@@ -6,8 +6,8 @@ export default function UploadVideo() {
   const [videoLink, setVideoLink] = useState('');
   const [videoType, setVideoType] = useState('sparring');
   const [submitDisabled, setSubmitDisabled] = useState(true);
-  const { writeToDB, isAuth,
-          displayName, isAuthenticated } = useContext(Context);
+  const { writeToDB, isAuth, displayName, 
+          loginToken } = useContext(Context);
 
   useEffect(() => {
     isAuth()
@@ -34,7 +34,7 @@ export default function UploadVideo() {
         <p style={{ textAlign: 'center' }}>Login/Signup and post a video of your sparring session, bag work or shadow boxing. Ensure the video is at least three minutes and get feedback from other boxers.</p>
       </div>
       {
-        isAuthenticated ? 
+        loginToken ? 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <label>
               Video Link:
