@@ -4,13 +4,19 @@ const admin = require('firebase-admin');
 const session = require('cookie-session');
 const jwt = require('jsonwebtoken');
 const randtoken = require('rand-token');
+const { resourceLimits } = require('worker_threads');
 // const MongoClient = require('mongodb').MongoClient;
+
 
 
 const app = express();
 const port = process.env.PORT || 8000
 
 require('dotenv').config();
+
+function generate (n) {
+    return String(Math.ceil(Math.random() * 10 ** n)).padStart(n, '0');
+}
 
 const serviceAccount= {
     type : process.env.TYPE,
@@ -59,29 +65,46 @@ app.post('/auth', async (req, res) => {
     res.json({ message: authResult, cookie: req.session.cookie, header: 'test' })
 });
 
-app.get('/database', async (req, res) => {
+app.post('/addReview', async (req, res) => {
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount)
     });
     const db = admin.firestore();
     const collectionRef = db.collection('boxingvids');
-    const documentRef = collectionRef.doc('reviewsandcomments');
-    documentRef.set({
-        vidKey: 'test',
-        footWork: 2,
-        headMovement: 2,
-        overallRating: 2,
-        punchForm: 3,
-        shouldWOrkOn: 'test again',
-        addComments: 'test again again',
-        doesWell: 'test'
-    }).then(() => {
+    const docRef = collectionRef.doc(generate(10));
+    const data = {
+        vidKey: req.body['vidKey'],
+        footWork: req.body['footWork'],
+        headMovement: req.body['headMovement'],
+        overallRating: req.body['overallRating'],
+        punchForm: req.body['punchForm'],
+        shouldWorkOn: req.body['shouldWorkOn'],
+        addComments: req.body['addComments'],
+        doesWell: req.body['doesWell'],
+        poster: req.body['poster']
+    }
+    docRef.set(data).then(() => {
         console.log('Document successfully written!')
+        res.json({ message: req.body })
     })
     .catch((error) => {
         console.error('Error writing document: ', error);
     });
 });    
+
+app.get('/getReviews', async (req, res) => {
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+    });
+    const result = [];
+    const db = admin.firestore();
+    const collectRef = db.collection('boxingvids');
+    const allReviews = await collectRef.get();
+    allReviews.forEach((review) => {
+        result.push(review['_fieldsProto'])
+    });
+    res.json({ message: result })
+})
 
 app.listen(port);
 console.log('Server started at http://localhost:' + port);

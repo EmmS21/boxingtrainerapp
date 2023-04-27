@@ -34,3 +34,15 @@
   top: 0;
   left: 0;
 }
+
+.video-review {
+  height: 10%;
+  margin: auto;
+  background-color: grey;
+  border: 1px solid grey;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 70px; 
+  border-radius: 10px;
+}

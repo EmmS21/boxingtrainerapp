@@ -25,6 +25,7 @@ export const ContextProvider = ({ children }) => {
   
     const auth = firebase.auth();
     const baseURL = 'http://127.0.0.1:8000/auth';
+    const serverURL = 'http://127.0.0.1:8000/getReviews';
 
     const handleSignIn = async (email, password) => {
         try {
@@ -101,15 +102,32 @@ export const ContextProvider = ({ children }) => {
         }
     };
 
+    const videoId = (n) => {
+      console.log('func triggered')
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      let res = '';
+      for(let i = 0; i < n; i++){
+        res += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return res
+    }
+
     const writeToDB =  (videoType, videoLink, displayName) => {
-      const data = {videoType, videoLink, displayName}
+      const id = videoId(10)
+      const data = {videoType, videoLink, displayName, id}
       console.log('data', JSON.stringify(data))
       try {
-        dbRef.push(data);
+        dbRef.push(data)
       } catch (error) {
         console.log(error);
       }
     };
+
+    const fetchComments = (id) => {
+      axios.get(`${serverURL}`).then((res) =>{
+        console.log(res)
+      })
+    }
     
 
     const isAuth = () => {
@@ -153,7 +171,8 @@ export const ContextProvider = ({ children }) => {
         setLoginEmail: setLoginEmail,
         loginPassword: loginPassword,
         setLoginPassword: setLoginPassword,
-        loginToken: loginToken
+        loginToken: loginToken,
+        fetchComments: fetchComments
     };
     return(
         <Context.Provider value={contextData} >

@@ -1,13 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
-import Navbar from './components/Navbar'
-import { ContextProvider } from './context/Context'
-import Timeline from './pages/Timeline'
+import { ContextProvider } from './context/Context';
+import Timeline from './pages/Timeline';
+import CommentsPage from './pages/CommentsPage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 
 function App() {
   return (
     <ContextProvider>
-      <Timeline/>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Timeline/>} />
+          <Route path="/comments" element={<CommentsPage/>}/>
+        </Routes> 
+      </Router>
     </ContextProvider>
   );
 }

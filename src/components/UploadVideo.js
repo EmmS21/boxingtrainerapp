@@ -21,8 +21,6 @@ export default function UploadVideo() {
   const handleSubmit = (event) => {
     event.preventDefault();
     writeToDB(videoType, videoLink, displayName)
-    // console.log('event', videoType, videoLink, displayName)
-    // // Submit video link and type here
   };
 
   

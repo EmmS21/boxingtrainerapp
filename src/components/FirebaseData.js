@@ -16,8 +16,9 @@ export default function FirebaseData () {
         });
     }, []);
 
-    console.log('data', JSON.stringify(data))
-
+    const viewComments = (id) => {
+        console.log('value is, ', id)
+    }
     return (
         <>
             {Object.keys(data).map((key) => {
@@ -27,9 +28,10 @@ export default function FirebaseData () {
                         {item.displayName && <p className='div-para'><strong>Username:</strong> {item.displayName}</p>}
                         <Space size={[0,8]} wrap>
                             {item.videoType && <Tag color='cyan'>{item.videoType}</Tag>}
+                            {item.id && <Tag color="geekblue">{item.id}</Tag>}
                         </Space>
                         {item.videoLink && <VideoPlayer url={item.videoLink}/>}
-                        <CommentOutlined/>
+                        <CommentOutlined onClick={()=> viewComments(item.id)}/>
                     </div>
                 )
             })}
