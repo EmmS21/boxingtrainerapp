@@ -66,30 +66,32 @@ app.post('/auth', async (req, res) => {
 });
 
 app.post('/addReview', async (req, res) => {
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount)
-    });
-    const db = admin.firestore();
-    const collectionRef = db.collection('boxingvids');
-    const docRef = collectionRef.doc(generate(10));
-    const data = {
-        vidKey: req.body['vidKey'],
-        footWork: req.body['footWork'],
-        headMovement: req.body['headMovement'],
-        overallRating: req.body['overallRating'],
-        punchForm: req.body['punchForm'],
-        shouldWorkOn: req.body['shouldWorkOn'],
-        addComments: req.body['addComments'],
-        doesWell: req.body['doesWell'],
-        poster: req.body['poster']
-    }
-    docRef.set(data).then(() => {
+    try {
+        admin.initializeApp({
+            credential: admin.credential.cert(serviceAccount)
+        });
+        const db = admin.firestore();
+        const collectionRef = db.collection('boxingvids');
+        const docRef = collectionRef.doc(generate(10));
+        console.log('data is', req.body)
+        const data = {
+            vidKey: req.body['vidKey'],
+            footWork: req.body['footWork'],
+            headMovement: req.body['headMovement'],
+            overallRating: req.body['overallRating'],
+            punchForm: req.body['punchForm'],
+            shouldWorkOn: req.body['shouldWorkOn'],
+            addComments: req.body['addComments'],
+            doesWell: req.body['doesWell'],
+            posture: req.body['posture'],
+            poster: req.body['poster']
+        }
+        docRef.set(data);
         console.log('Document successfully written!')
         res.json({ message: req.body })
-    })
-    .catch((error) => {
+    } catch (error) {
         console.error('Error writing document: ', error);
-    });
+    }
 });    
 
 app.get('/getReviews', async (req, res) => {

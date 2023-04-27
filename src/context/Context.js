@@ -20,12 +20,12 @@ export const ContextProvider = ({ children }) => {
     const [username, setUsername] = useState('');
     const [loginEmail, setLoginEmail] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
+    const [boxingVid, setBoxingVid] = useState('');
     const loginToken = useRef('');
   
   
     const auth = firebase.auth();
-    const baseURL = 'http://127.0.0.1:8000/auth';
-    const serverURL = 'http://127.0.0.1:8000/getReviews';
+    const baseURL = 'http://127.0.0.1:8000';
 
     const handleSignIn = async (email, password) => {
         try {
@@ -124,7 +124,7 @@ export const ContextProvider = ({ children }) => {
     };
 
     const fetchComments = (id) => {
-      axios.get(`${serverURL}`).then((res) =>{
+      axios.get(`${baseURL}/getReviews`).then((res) =>{
         console.log(res)
       })
     }
@@ -144,6 +144,7 @@ export const ContextProvider = ({ children }) => {
     };
 
     let contextData = {
+        baseURL: baseURL,
         loginModal: loginModal,
         setLoginModal: setLoginModal,
         setSignupModal: setSignupModal,
@@ -172,7 +173,9 @@ export const ContextProvider = ({ children }) => {
         loginPassword: loginPassword,
         setLoginPassword: setLoginPassword,
         loginToken: loginToken,
-        fetchComments: fetchComments
+        fetchComments: fetchComments,
+        boxingVid: boxingVid,
+        setBoxingVid: setBoxingVid
     };
     return(
         <Context.Provider value={contextData} >

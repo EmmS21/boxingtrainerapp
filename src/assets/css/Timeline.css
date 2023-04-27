@@ -46,3 +46,7 @@
   margin-top: 70px; 
   border-radius: 10px;
 }
+
+.warning {
+  color: red
+}

@@ -8,8 +8,6 @@ const LoginModal = () => {
   const { loginModal, setLoginModal, handleSignIn, 
           loginEmail, setLoginEmail, loginPassword, 
           setLoginPassword } = useContext(Context);
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
   
   const useEmailValidation = (loginEmail) => {
       const isEmailValid = /@/.test(loginEmail); 

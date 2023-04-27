@@ -12,7 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Timeline/>} />
-          <Route path="/comments" element={<CommentsPage/>}/>
+          <Route path="/comments/:commentsId" element={<CommentsPage/>}/>
         </Routes> 
       </Router>
     </ContextProvider>

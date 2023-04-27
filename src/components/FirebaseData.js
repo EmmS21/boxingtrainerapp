@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
 import '../assets/css/Timeline.css';
 import VideoPlayer from './VideoPlayer';
 import { Space, Tag } from 'antd';
 import { CommentOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import Context from '../context/Context';
+
 
 export default function FirebaseData () {
     const [ data, setData ] = useState([]);
-
+    const { setBoxingVid } = useContext(Context);
+    const navigate = useNavigate();
+    
     useEffect(() => {
         const dbRef = firebase.database().ref();
         dbRef.on('value', (snapshot) => {
@@ -16,7 +21,9 @@ export default function FirebaseData () {
         });
     }, []);
 
-    const viewComments = (id) => {
+    const viewComments = (id, video) => {
+        navigate(`/comments/${id}`);
+        setBoxingVid(video)
         console.log('value is, ', id)
     }
     return (
@@ -31,7 +38,7 @@ export default function FirebaseData () {
                             {item.id && <Tag color="geekblue">{item.id}</Tag>}
                         </Space>
                         {item.videoLink && <VideoPlayer url={item.videoLink}/>}
-                        <CommentOutlined onClick={()=> viewComments(item.id)}/>
+                        <CommentOutlined onClick={()=> viewComments(item.id, item.videoLink)}/>
                     </div>
                 )
             })}

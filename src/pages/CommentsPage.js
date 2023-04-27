@@ -1,28 +1,63 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from "axios";
 import Context from '../context/Context';
+import VideoPlayer from '../components/VideoPlayer';
 import '../assets/css/Timeline.css';
 import { Rate, Input, Button } from 'antd';
 const { TextArea } = Input;
 
 
+
 export default function CommentsPage () {
-    const { fetchComments } = useContext(Context);
+    const { fetchComments, baseURL, boxingVid, isAuth, displayName } = useContext(Context);
     const desc = ['rookie', 'not bad', 'ok', 'good', 'awesome'];
     const [foot, setFoot] = useState(2);
     const [head, setHead] = useState(2);
     const [punch, setPunch] = useState(2);
     const [posture, setPosture] = useState(2);
     const [rating, setRating] = useState(2);
+    const [recommend, setRecommend] = useState('');
+    const [doesWell, setDoesWell] = useState('');
+    const [otherComments, setOtherComments] = useState('');
+    const text = "Please enter at least 20 characters";
 
-    // fetchComments
-    // useEffect(() => {
-    //     fetchComments()
-    // }, []);
+    useEffect((() => {
+        isAuth()
+    }),[])
+
+
+    const addReview = (footW, headMov, punchTech, 
+                       boxerPosture, boxerRating, recomm, 
+                       doesWellComment, otherComm, displayName) => {
+        const review = {
+            vidKey: boxingVid,
+            footWork: footW,
+            headMovement: headMov,
+            overallRating: boxerRating,
+            punchForm: punchTech,
+            shouldWorkOn: recomm,
+            addComments: otherComm,
+            doesWell: doesWellComment,
+            posture: boxerPosture,
+            poster: displayName
+        };
+        console.log('pre click', review)
+        axios.post(`${baseURL}/addReview`, review)
+        .then((res) => {
+            console.log('success', res)
+        })
+        .catch((err) => {
+            console.log('error', err)
+        });
+    };
+
+    const isDisabled = recommend.length < 20 || doesWell.length < 20 || otherComments.leng
       
     return (
         <>
             <div className='video-review'>
+                <VideoPlayer url={boxingVid}/>
                 <h3>Add Review</h3>
                 <span>
                     Footwork:
@@ -49,10 +84,39 @@ export default function CommentsPage () {
                     <Rate tooltips={desc} onChange={setRating} value={rating} />
                     { rating ? <span className="ant-rate-text">{desc[rating-1]}</span>: ''}
                 </span>
-                <TextArea rows={4} placeholder="What would you recommend this boxer should work on and why?"/>
-                <TextArea rows={4} placeholder="What do you think this boxer does well in this video?"/>
-                <TextArea rows={4} placeholder="Do you have other comments you would like to add?"/>
-                <Button>Add Review</Button>
+                <TextArea 
+                    rows={4} 
+                    placeholder="What would you recommend this boxer should work on and why?"
+                    onChange={(e) => setRecommend(e.target.value)}
+                    value={recommend} />
+                    {
+                        recommend.length < 20 && (
+                            <div className='warning'>{text}</div>
+                            )
+                    }
+                <TextArea 
+                    rows={4} 
+                    placeholder="What do you think this boxer does well in this video?"
+                    onChange={(e) => setDoesWell(e.target.value)}
+                    value={doesWell} />
+                    {
+                        doesWell.length < 20 && (
+                            <div className='warning'>{text}</div>
+                        )
+                    }
+                <TextArea 
+                    rows={4} 
+                    placeholder="Do you have other comments you would like to add?"
+                    onChange={(e) => setOtherComments(e.target.value)}
+                    value={otherComments} />
+                    {
+                        otherComments.length < 20 && (
+                            <div className='warning'>{text}</div>
+                        )
+                    }
+                <Button disabled={isDisabled} onClick={()=> addReview(foot, head, punch,
+                                                                      posture, rating, recommend,
+                                                                      doesWell, otherComments, displayName )}>Add Review</Button>
             </div>
         </>
     );
