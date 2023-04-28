@@ -31,7 +31,7 @@ export default function NavigationBar(props) {
 
     useEffect(() => {
         isAuth()
-        console.log('check', loginToken.current)
+        // console.log('check', loginToken.current)
       }, []);
 
     const drawer = (

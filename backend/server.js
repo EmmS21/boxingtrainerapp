@@ -16,7 +16,7 @@ require('dotenv').config();
 
 function generate (n) {
     return String(Math.ceil(Math.random() * 10 ** n)).padStart(n, '0');
-}
+};
 
 const serviceAccount= {
     type : process.env.TYPE,
@@ -29,7 +29,11 @@ const serviceAccount= {
     token_uri : process.env.TOKEN_URI,
     auth_provider_x509_cert_url : process.env.AUTH_PROVIDER_X509_CERT_URL,
     client_x509_cert_url : process.env.CLIENT_X509_CERT_URL
-}
+};
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
 
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -67,13 +71,9 @@ app.post('/auth', async (req, res) => {
 
 app.post('/addReview', async (req, res) => {
     try {
-        admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount)
-        });
         const db = admin.firestore();
         const collectionRef = db.collection('boxingvids');
         const docRef = collectionRef.doc(generate(10));
-        console.log('data is', req.body)
         const data = {
             vidKey: req.body['vidKey'],
             footWork: req.body['footWork'],
@@ -95,18 +95,19 @@ app.post('/addReview', async (req, res) => {
 });    
 
 app.get('/getReviews', async (req, res) => {
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount)
-    });
-    const result = [];
-    const db = admin.firestore();
-    const collectRef = db.collection('boxingvids');
-    const allReviews = await collectRef.get();
-    allReviews.forEach((review) => {
-        result.push(review['_fieldsProto'])
-    });
-    res.json({ message: result })
-})
+    try {
+        const result = [];
+        const db = admin.firestore();
+        const collectRef = db.collection('boxingvids');
+        const allReviews = await collectRef.get();
+        allReviews.forEach((review) => {
+            result.push(review['_fieldsProto'])
+        });
+        res.json({ message: result })
+    } catch (error) {
+        console.error('Error retrieving reviews: ', error);
+    }
+});
 
 app.listen(port);
 console.log('Server started at http://localhost:' + port);

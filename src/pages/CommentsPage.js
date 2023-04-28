@@ -5,12 +5,17 @@ import Context from '../context/Context';
 import VideoPlayer from '../components/VideoPlayer';
 import '../assets/css/Timeline.css';
 import { Rate, Input, Button } from 'antd';
+import { LeftSquareOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import FetchedComments from '../components/FetchedComments';
+
 const { TextArea } = Input;
 
 
 
 export default function CommentsPage () {
-    const { fetchComments, baseURL, boxingVid, isAuth, displayName } = useContext(Context);
+    const { fetchComments, baseURL, boxingVid,
+            isAuth, displayName, comments } = useContext(Context);
     const desc = ['rookie', 'not bad', 'ok', 'good', 'awesome'];
     const [foot, setFoot] = useState(2);
     const [head, setHead] = useState(2);
@@ -20,10 +25,14 @@ export default function CommentsPage () {
     const [recommend, setRecommend] = useState('');
     const [doesWell, setDoesWell] = useState('');
     const [otherComments, setOtherComments] = useState('');
+    const navigate = useNavigate();
     const text = "Please enter at least 20 characters";
+
 
     useEffect((() => {
         isAuth()
+        fetchComments()
+        // console.log('what is comments', comments.current)
     }),[])
 
 
@@ -52,11 +61,18 @@ export default function CommentsPage () {
         });
     };
 
+    const goBack = () => {
+        navigate('/');
+    }
+
     const isDisabled = recommend.length < 20 || doesWell.length < 20 || otherComments.leng
       
     return (
         <>
             <div className='video-review'>
+            <Button onClick={()=>goBack()}>
+                <LeftSquareOutlined style={{ fontSize: '20px', zIndex:1 }} />
+            </Button>
                 <VideoPlayer url={boxingVid}/>
                 <h3>Add Review</h3>
                 <span>
@@ -118,6 +134,7 @@ export default function CommentsPage () {
                                                                       posture, rating, recommend,
                                                                       doesWell, otherComments, displayName )}>Add Review</Button>
             </div>
+            <FetchedComments/>
         </>
     );
 };

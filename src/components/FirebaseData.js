@@ -11,7 +11,7 @@ import Context from '../context/Context';
 
 export default function FirebaseData () {
     const [ data, setData ] = useState([]);
-    const { setBoxingVid } = useContext(Context);
+    const { setBoxingVid, fetchComments } = useContext(Context);
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -22,6 +22,7 @@ export default function FirebaseData () {
     }, []);
 
     const viewComments = (id, video) => {
+        fetchComments();
         navigate(`/comments/${id}`);
         setBoxingVid(video)
         console.log('value is, ', id)

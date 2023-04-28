@@ -21,6 +21,8 @@ export const ContextProvider = ({ children }) => {
     const [loginEmail, setLoginEmail] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
     const [boxingVid, setBoxingVid] = useState('');
+    const [comments, setComments] = useState([]);
+    // const comments = useRef([])
     const loginToken = useRef('');
   
   
@@ -123,10 +125,24 @@ export const ContextProvider = ({ children }) => {
       }
     };
 
-    const fetchComments = (id) => {
-      axios.get(`${baseURL}/getReviews`).then((res) =>{
-        console.log(res)
-      })
+    // const handleSignIn = async (email, password) => {
+
+
+    const fetchComments = async () => {
+      await axios.get(`${baseURL}/getReviews`).then((res) =>{
+        setComments(res.data['message'])
+        console.log('comments state contains', comments)
+        // comments.current = res.data['message']
+        // console.log('current state', comments.current)
+        // const newComments = [];
+        // for(const comment of res.data['message']){
+        //   if(comment['vidKey']['stringValue'] === boxingVid){
+        //     newComments.push(comment)
+        //   }
+        // }
+        // console.log('pushing into comments', newComments)
+        // comments.current = newComments
+      });
     }
     
 
@@ -175,7 +191,8 @@ export const ContextProvider = ({ children }) => {
         loginToken: loginToken,
         fetchComments: fetchComments,
         boxingVid: boxingVid,
-        setBoxingVid: setBoxingVid
+        setBoxingVid: setBoxingVid,
+        comments: comments,
     };
     return(
         <Context.Provider value={contextData} >

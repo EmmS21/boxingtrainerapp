@@ -8,16 +8,6 @@ import FirebaseData from '../components/FirebaseData';
 
 // setLoginModal
 const Timeline = () => {
-  const { user, setUser, auth } = useContext(Context);
-  
-  useEffect(() => {
-    if(user){
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        setUser(user);
-      });
-      return unsubscribe;
-    }
-  }, []);
 
   return (
     <>
